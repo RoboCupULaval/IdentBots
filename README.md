@@ -1,2 +1,7 @@
 # Identification
-Données pour identification et modélisation des robots.
+
+## RobotIdent
+Interface permettant l'acquisition de données directement des robots via un port série Bluetooth.
+
+## Modelisation
+...
