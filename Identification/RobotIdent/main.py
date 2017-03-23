@@ -38,10 +38,10 @@ if __name__ == '__main__':
         main_parser.add_argument('loop_type', help='open_loop or close_loop')
 
         consoleInteractThread = ConsoleInteractThread()
-        consoleInteractThread.start()
+        #consoleInteractThread.start()
 
         consoleLogThread = ConsoleLogThread()
-        consoleLogThread.start()
+        #consoleLogThread.start()
 
         args = main_parser.parse_args()
 
@@ -51,7 +51,7 @@ if __name__ == '__main__':
         plotter = DataPlotter(args.loop_type, log)
 
         while True:
-            time.sleep(0.001)
+            time.sleep(0.1)
             #plotter.update()
     except KeyboardInterrupt:
         log.disconnect()
