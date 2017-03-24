@@ -58,6 +58,12 @@ class LoggingHandler:
         """ Get one parsed data line (blocking) """
         return self.dataQueue.get()
 
+    def clearData(self):
+        """Clear the logged data"""
+        with self.dataQueue.mutex:
+            self.dataQueue = Queue()
+            self.dataArray.clear()
+
     def getLog(self):
         """ Get one parsed log line (blocking) """
         return self.logQueue.get()
@@ -85,6 +91,7 @@ class LoggingHandler:
                                                      line["motor3"]["ref"], line["motor3"]["speed"], line["motor3"]["error"], line["motor3"]["cmd"],
                                                      line["motor4"]["ref"], line["motor4"]["speed"], line["motor4"]["error"], line["motor4"]["cmd"]))
 
+        self.clearData()
 
     def isDataAvailable(self):
         return not self.dataQueue.empty()
@@ -103,7 +110,6 @@ class LoggingHandler:
             d['robotID'] = int(line[2].strip('R'))
             d['battVoltage'] = float(line[3].strip('B'))
             if d['type'] == 'DATA':
-                print(line)
                 if(self.loopType == 'open_loop'):
                     d['loopType'] = 'open_loop'
                     d['motor1'] = {'cmd': float(line[4]), 'speed': float(line[5])}

@@ -17,5 +17,5 @@ function J = vehicule_model(x, M1, M2, ident_data)
         end
         J = J + sum((ident_data.w{dataid}(:) - w_model(:)).^2);
     end
-    
+
 end
