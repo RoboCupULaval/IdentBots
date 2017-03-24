@@ -36,23 +36,27 @@ if __name__ == '__main__':
         main_parser = argparse.ArgumentParser(description='Robocup utility for robot motors identification and PID tuning')
         main_parser.add_argument('log_serial_port', help='Serial port where the robot logs data')
         main_parser.add_argument('loop_type', help='open_loop or close_loop')
+        main_parser.add_argument('--plot_flag', default=False, help='True or False')
 
         consoleInteractThread = ConsoleInteractThread()
-        #consoleInteractThread.start()
+        consoleInteractThread.start()
 
         consoleLogThread = ConsoleLogThread()
-        #consoleLogThread.start()
+        consoleLogThread.start()
 
         args = main_parser.parse_args()
 
         log.setLoopType(args.loop_type)
         log.connect(args.log_serial_port)
 
-        plotter = DataPlotter(args.loop_type, log)
+        if args.plot_flag:
+            plotter = DataPlotter(args.loop_type, log)
 
         while True:
-            time.sleep(0.1)
-            #plotter.update()
+            time.sleep(0.001)
+            if args.plot_flag:
+                plotter.update()
+
     except KeyboardInterrupt:
         log.disconnect()
 
