@@ -14,7 +14,7 @@ function [t, u, y] = parsecsv(filename, mode)
             t = data(:,str_idx(headers, 'time'));
             for nwheel = 1:4    
                 u(:,nwheel) = data(:, str_idx(headers, ['motor',num2str(nwheel),'_cmd']));
-                y(:,nwheel) = data(:, str_idx(headers, ['motor',num2str(nwheel),'_speed'])).*2*pi/(2048*2*3.2);
+                y(:,nwheel) = data(:, str_idx(headers, ['motor',num2str(nwheel),'_speed'])).*2*pi*20/(2048*2*3.2);
             end
         otherwise
             error('parsecsv:InvalidMode', 'The mode specified is invalid')

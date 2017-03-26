@@ -12,7 +12,7 @@ function J = vehicule_model(x, M1, M2, ident_data)
         v = ident_data.v{dataid};
         w_model(1) = ident_data.w{dataid}(1);
         for k = 2:length(w_model)
-            alpha = M1*v(k-1,:)' - M2*w_model(k-1,:)';
+            alpha = M1*v(k,:)' - M2*w_model(k-1,:)';
             w_model(k,:) = w_model(k-1,:)' + dt*alpha;
         end
         J = J + sum((ident_data.w{dataid}(:) - w_model(:)).^2);
