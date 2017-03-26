@@ -5,7 +5,7 @@
 % b = Bluetooth('RobotDebugFC1891', 1);
 
 
-filename = 'test_G03_lowspeed';
+filename = 'test_G03_midspeed';
 
 nn = 1;
 new_filename = filename;
@@ -37,31 +37,29 @@ cell2num = @(c) str2num(cell2mat(c));
 try
     fopen(b);
     disp('Acquisition starts')
-    generate_wheel_cmd;
+    %generate_wheel_cmd;
     system('python ../../RobotMCU/pyhermes/pyhermes.py ctrl_test open_loop cmd.csv 2')
-    while timeout > 0
 
-        while b.BytesAvailable
-            
-            line = strsplit(fgetl(b),'|');
- 
-            dat_type = line(1);
-            if ~strcmp(dat_type, 'DATA') || length(line) ~= 13, continue, end
 
-            dat.time(nline) = cell2num(line(2));
-            dat.robotID(nline) = cell2num(strrep(line(4),'B',''));
-            dat.battVoltage(nline) = cell2num(strrep(line(4),'B',''));
-            for j = 1:4
-                dat.cmd(j, nline)   = cell2num(line(3+2*j));
-                dat.speed(j, nline) = cell2num(line(4+2*j));
-            end
-            
-            nline = nline + 1;
-            
+    while b.BytesAvailable
+
+        line = strsplit(fgetl(b),'|');
+
+        dat_type = line(1);
+        if ~strcmp(dat_type, 'DATA') || length(line) ~= 13, continue, end
+
+        dat.time(nline) = cell2num(line(2));
+        dat.robotID(nline) = cell2num(strrep(line(4),'B',''));
+        dat.battVoltage(nline) = cell2num(strrep(line(4),'B',''));
+        for j = 1:4
+            dat.cmd(j, nline)   = cell2num(line(3+2*j));
+            dat.speed(j, nline) = cell2num(line(4+2*j));
         end
-        timeout = timeout - 1;
-        pause(0.01);
+
+        nline = nline + 1;
+
     end
+
     fclose(b);
 catch me
     disp(me)
