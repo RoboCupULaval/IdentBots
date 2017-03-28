@@ -2,7 +2,7 @@
 
 % hwinfo = instrhwinfo('Bluetooth');
 
-% b = Bluetooth('RobotDebugFC1891', 1);
+b = Bluetooth('RobotDebugFC1891', 1);
 
 
 filename = 'test_G03_midspeed';

@@ -1,5 +1,9 @@
 
-filenames = {'test_G03_midspeed_1_good.csv', 'test_G03_midspeed_2_good.csv', 'test_G03_midspeed_3_good.csv', 'test_G03_midspeed_4_good.csv'};
+filenames = {'Data/test_G03_midspeed_1_good.csv',...
+             'Data/test_G03_midspeed_2_good.csv',...
+             'Data/test_G03_midspeed_3_good.csv',...
+             'Data/test_G03_midspeed_4_good.csv',...
+             'Data/test_G03_midspeed_5_good.csv'};
 exp_data = parsecsv_batch(filenames, 'open_loop');
 ident_data.dt = 1/20;
 ident_data.w = exp_data.y;
@@ -38,7 +42,7 @@ lb = x_min;
 ub = x_max ; 
                
 model = @(x) vehicule_model(x, M1, M2, ident_data);
-[x_out ,fval, exitflag, output] = fmincon(model, x0, [],[],[],[], lb, ub, [], options);
+[x_out ,fval, exitflag, output] = fmincon(model, x0, [],[],[],[], lb, ub, []);
 
 M1 = M1.*reshape(x_out(1:16)' ,4,4);
 M2 = M2.*reshape(x_out(17:32)',4,4);
@@ -46,7 +50,7 @@ M2 = M2.*reshape(x_out(17:32)',4,4);
 %% Validation
 
 
-filenames = {'test_G03_steps_1_good.csv'};
+filenames = {'test_G03_midspeed_3.csv'};
 exp_data = parsecsv_batch(filenames, 'open_loop');
 valid_data.dt = 1/20;
 valid_data.w = exp_data.y;
@@ -70,16 +74,16 @@ plot(valid_data.w{dataid}(:,1)), hold off
 
 subplot(4,1,2)
 plot(w_model(:,2)), hold on
-plot(100*v(:,2))
+%plot(100*v(:,2))
 plot(valid_data.w{dataid}(:,2)), hold off
 
 subplot(4,1,3)
 plot(w_model(:,3)), hold on
-plot(100*v(:,3))
+%plot(100*v(:,3))
 plot(valid_data.w{dataid}(:,3)), hold off
 
 subplot(4,1,4)
 plot(w_model(:,4)), hold on
-plot(100*v(:,4))
+%plot(100*v(:,4))
 plot(valid_data.w{dataid}(:,4)), hold off
 
