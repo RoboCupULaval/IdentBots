@@ -57,19 +57,21 @@ err  = zeros(nwheel,N);
 errI = zeros(nwheel,N);
 
 for i = 2:N
-      
-    w(:,i) = w(:,i-1) + (M1*u(:,i-1)-M2*w(:,i-1))*dt + 0*rand(nwheel,1);
+          
+    w_m(:,i) = w_m(:,i-1).*(1+dt*gamma) - dt*gamma.*w_ref(:,i-1); % filtered tracking reference
+    %w_m(:,i) = w_m(:,i-1)./(1-dt*gamma) - dt*gamma./(1-dt*gamma).*w_ref(:,i); % filtered tracking reference
     
-    w_m(:,i) = w_m(:,i-1)./(1-dt*gamma) - (dt*gamma/(1-dt*gamma)).*w_ref(:,i); % filtered tracking reference
-
-    err(:,i) = w_m(:,i) - w(:,i); % Tracking error
+    err(:,i) = w_m(:,i-1) - w(:,i-1); % Tracking error
     errI(:,i) = errI(:,i-1) + err(:,i)*dt;
     
     PI_action = Kp*err(:,i) + Ki*errI(:,i);
-    u(:,i) = M1\( gamma*(w_m(:,i)-w_ref(:,i)) + M2*w(:,i) + PI_action);
-    u(u(:,i) > 1,i) = 1;
-    u(u(:,i) < -1,i) = -1;
-
+    u(:,i) = M1\( gamma*(w(:,i-1)-w_ref(:,i)) + M2*w(:,i-1) + PI_action);
+    %u(u(:,i) > 1,i) = 1;
+    %u(u(:,i) < -1,i) = -1;
+    
+    w(:,i) = w(:,i-1) + (M1*u(:,i-1)-M2*w(:,i-1))*dt + randn(4,1);
+    %w(:,i) = ( eye(nwheel) + dt.*M2 ) \ ( dt.*M1*u(:,i) + w(:,i-1) );
+    
 end
 
 

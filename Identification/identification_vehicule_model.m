@@ -50,7 +50,7 @@ M2 = M2.*reshape(x_out(17:32)',4,4);
 %% Validation
 
 
-filenames = {'test_G03_midspeed_3.csv'};
+filenames = {'Data/test_G03_midspeed_3_good.csv'};
 exp_data = parsecsv_batch(filenames, 'open_loop');
 valid_data.dt = 1/20;
 valid_data.w = exp_data.y;
@@ -69,7 +69,7 @@ end
 
 subplot(4,1,1)
 plot(w_model(:,1)), hold on
-plot(100*v(:,1))
+%plot(100*v(:,1))
 plot(valid_data.w{dataid}(:,1)), hold off
 
 subplot(4,1,2)
