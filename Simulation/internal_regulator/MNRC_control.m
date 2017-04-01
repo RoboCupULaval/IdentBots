@@ -69,7 +69,8 @@ for i = 2:N
     %u(u(:,i) > 1,i) = 1;
     %u(u(:,i) < -1,i) = -1;
     
-    w(:,i) = w(:,i-1) + (M1*u(:,i-1)-M2*w(:,i-1))*dt + randn(4,1);
+    w(:,i) = w(:,i-1) + (M1*u(:,i-1)-M2*w(:,i-1))*dt; % randn(4,1);
+    w(w(:,i) < 5,i) = 0;
     %w(:,i) = ( eye(nwheel) + dt.*M2 ) \ ( dt.*M1*u(:,i) + w(:,i-1) );
     
 end

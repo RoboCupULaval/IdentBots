@@ -4,7 +4,7 @@ filenames = {'Data/test_G03_midspeed_1_good.csv',...
              'Data/test_G03_midspeed_3_good.csv',...
              'Data/test_G03_midspeed_4_good.csv',...
              'Data/test_G03_midspeed_5_good.csv'};
-exp_data = parsecsv_batch(filenames, 'open_loop');
+exp_data = parsecsv_batch(filenames, 'open_loop_legacy');
 ident_data.dt = 1/20;
 ident_data.w = exp_data.y;
 ident_data.v = exp_data.u;
@@ -50,15 +50,15 @@ M2 = M2.*reshape(x_out(17:32)',4,4);
 %% Validation
 
 
-filenames = {'Data/test_G03_midspeed_3_good.csv'};
-exp_data = parsecsv_batch(filenames, 'open_loop');
+filenames = {'Data/test_G03_midspeed_1_good.csv'};
+exp_data = parsecsv_batch(filenames, 'open_loop_legacy');
 valid_data.dt = 1/20;
 valid_data.w = exp_data.y;
 valid_data.v = exp_data.u;
 
 dt = valid_data.dt;
 dataid = 1;
-
+Mc
 w_model = zeros(size(valid_data.w{dataid}));
 v = valid_data.v{dataid};
 w_model(1) = valid_data.w{dataid}(1);

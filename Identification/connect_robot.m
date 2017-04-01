@@ -2,10 +2,10 @@
 
 % hwinfo = instrhwinfo('Bluetooth');
 
-b = Bluetooth('RobotDebugFC1891', 1);
+%b = Bluetooth('RobotDebugFC1891', 1);
 
 
-filename = 'G05_deadzone';
+filename = 'G05_310317';
 
 nn = 1;
 new_filename = filename;
