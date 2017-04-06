@@ -1,10 +1,9 @@
 
-filenames = {'Data/test_G03_midspeed_1_good.csv',...
-             'Data/test_G03_midspeed_2_good.csv',...
-             'Data/test_G03_midspeed_3_good.csv',...
-             'Data/test_G03_midspeed_4_good.csv',...
-             'Data/test_G03_midspeed_5_good.csv'};
-exp_data = parsecsv_batch(filenames, 'open_loop_legacy');
+filenames = {'Data/310317/G05_310317_1.csv',...
+             'Data/310317/G05_310317_2.csv',...
+             'Data/310317/G05_310317_3.csv',...
+             'Data/310317/G05_310317_5.csv'};
+exp_data = parsecsv_batch(filenames, 'open_loop');
 ident_data.dt = 1/20;
 ident_data.w = exp_data.y;
 ident_data.v = exp_data.u;
@@ -34,38 +33,38 @@ M2 = Mc*Mm*Mc'*Mb/r;
 
 %%
 
-x_min = 0.1*ones(32,1) ;
+x_min = 0.8*ones(32,1) ;
 x_max = 2*ones(32,1) ;
 x0 = ones(32,1);
 
 lb = x_min;
 ub = x_max ; 
-               
+options = optimset('MaxFunEvals', 10000);               
 model = @(x) vehicule_model(x, M1, M2, ident_data);
-[x_out ,fval, exitflag, output] = fmincon(model, x0, [],[],[],[], lb, ub, []);
+[x_out ,fval, exitflag, output] = fmincon(model, x0, [],[],[],[], lb, ub, [], options);
 
 M1 = M1.*reshape(x_out(1:16)' ,4,4);
 M2 = M2.*reshape(x_out(17:32)',4,4);
 
+ident_ss = ss(-M2, M1, eye(4), zeros(4));
+ident_ss = c2d(ident_ss, dt);
+
 %% Validation
 
 
-filenames = {'Data/test_G03_midspeed_1_good.csv'};
-exp_data = parsecsv_batch(filenames, 'open_loop_legacy');
+filenames = {'Data/310317/G05_310317_3.csv'};
+exp_data = parsecsv_batch(filenames, 'open_loop');
 valid_data.dt = 1/20;
 valid_data.w = exp_data.y;
 valid_data.v = exp_data.u;
 
 dt = valid_data.dt;
 dataid = 1;
-Mc
-w_model = zeros(size(valid_data.w{dataid}));
-v = valid_data.v{dataid};
-w_model(1) = valid_data.w{dataid}(1);
-for k = 2:length(w_model)
-    alpha = M1*v(k,:)' - M2*w_model(k-1,:)';
-    w_model(k,:) = w_model(k-1,:)' + dt*alpha;
-end
+
+U = valid_data.v{dataid};
+T = 0:dt:length(valid_data.v{dataid})*dt-dt;
+X0 = valid_data.w{dataid}(1,:);
+w_model = lsim(ident_ss, U, T, X0);
 
 subplot(4,1,1)
 plot(w_model(:,1)), hold on
