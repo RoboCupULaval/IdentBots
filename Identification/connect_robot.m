@@ -2,7 +2,7 @@
 
 % hwinfo = instrhwinfo('Bluetooth');
 
-%#b = Bluetooth('RobotDebugFC1891', 1);
+%b = Bluetooth('RobotDebugFC1891', 1);
 
 
 filename = 'G05_310317';
@@ -38,7 +38,7 @@ try
     fopen(b);
     disp('Acquisition starts')
     %generate_wheel_cmd;
-    system('python ../../RobotMCU/pyhermes/pyhermes.py ctrl_test open_loop cmd.csv 3')
+    system('python ../../RobotMCU/pyhermes/pyhermes.py ctrl_test open_loop cmd.csv 2')
 
 
     while b.BytesAvailable
