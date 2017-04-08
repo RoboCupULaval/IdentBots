@@ -47,12 +47,12 @@ M1 = M1.*reshape(x_out(1:16)' ,4,4);
 M2 = M2.*reshape(x_out(17:32)',4,4);
 
 ident_ss = ss(-M2, M1, eye(4), zeros(4));
-ident_ss = c2d(ident_ss, dt);
+ident_ss = c2d(ident_ss, ident_data.dt);
 
 %% Validation
 
 
-filenames = {'Data/310317/G05_310317_3.csv'};
+filenames = {'Data/310317/G05_310317_2.csv'};
 exp_data = parsecsv_batch(filenames, 'open_loop');
 valid_data.dt = 1/20;
 valid_data.w = exp_data.y;
