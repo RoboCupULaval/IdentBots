@@ -120,3 +120,8 @@ ENV/
 .ropeproject
 
 # End of https://www.gitignore.io/api/python,matlab
+
+# Latex junk files
+*.aux
+*.log
+*.gz

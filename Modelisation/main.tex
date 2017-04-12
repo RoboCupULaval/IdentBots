@@ -1,0 +1,98 @@
+\documentclass[12pt]{article} 
+\input{structure.tex}
+
+
+\newcommand{\ClassName}{RobocupUlaval }
+\newcommand{\ClassNumber}{ULtron}
+\newcommand{\Subject}{Modélisation et contrôle}
+
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{center}
+\normalfont \normalsize 
+\huge \Subject\\
+\horrule{0.5pt} \\[0.4cm]
+\huge \ClassName - \ClassNumber \\ 
+\horrule{0.5pt} \\[0.4cm]
+\large \textit{Par: Simon Bouchard}\\
+\textit{\today}
+\end{center}
+
+% \FIG[width=0.75\paperwidth]{filename}{caption}{fig:refname}
+
+%---------------------------------------------------------------------------------------
+
+\section{Modèle du robot}
+
+\subsection{Équation en continu}
+\[
+	\vect{\dot{\omega}} = \vect{M_1}\vect{u} - \vect{M_2}\vect{\omega}
+\]
+où,
+\begin{itemize}
+	\item[$\vect{\omega}$] est le vecteur de vitesses angulaires des roues en rad/s;
+	\item[$\vect{u}$] est le vecteur de rapport cyclique de commande aux moteurs.
+\end{itemize}
+
+\subsection{Valeurs numériques}
+\[
+M_1(0) = \begin{bmatrix}
+  520.2 & 346.8 & 173.4 & 346.8 \\[0.3em]
+  346.8 & 520.2 & 346.8 & 173.4 \\[0.3em]
+  173.4 & 346.8 & 520.2 & 346.8 \\[0.3em]
+  346.8 & 173.4 & 346.8 & 520.2
+     \end{bmatrix}
+\]
+
+\[
+M_2(0) = \begin{bmatrix}
+    4.3350  &  2.8900  &  1.4450  &  2.8900 \\[0.3em]
+    2.8900  &  4.3350  &  2.8900  &  1.4450 \\[0.3em]
+    1.4450  &  2.8900  &  4.3350  &  2.8900 \\[0.3em]
+    2.8900  &  1.4450  &  2.8900  &  4.3350
+     \end{bmatrix}
+\]
+
+\[
+M_{1opt} = \begin{bmatrix}
+		832.5160 & 348.0510 & 150.7291 & 327.6491 \\[0.3em]
+        486.8178 & 692.4930 & 399.4206 & 117.5622 \\[0.3em]
+        241.0265 & 239.6313 & 761.3489 & 235.5609 \\[0.3em]
+        221.2959 &  59.1184 & 116.8171 & 702.2684
+     \end{bmatrix}
+\]
+
+\[
+M_{2opt} = \begin{bmatrix}
+        4.5265  &  0.2949  &  1.1064  &  0.3471 \\[0.3em]
+        1.0369  &  2.9667  &  0.8380  &  0.1454 \\[0.3em]
+        0.1446  &  0.2892  &  2.9959  &  0.2894 \\[0.3em]
+        0.7098  &  0.1451  &  0.2896  &  3.3578
+     \end{bmatrix}
+\]
+
+
+\section{Loi de commande du robot}
+
+\subsection{NRMC continu}
+
+\[
+	\vect{u} = \vect{M_1^{-1}}\left( \vect{\Lambda_{\omega}}\vect{\omega_m} - \vect{\Lambda_{\omega}}\vect{r_w} +\vect{M_2\omega} +\vect{K_pe + K_Ie_I} \right)
+\]
+\[
+	\vect{\dot{\omega}_m} = \vect{\Lambda_{\omega}}\vect{\omega_m} - \vect{\Lambda_{\omega}}\vect{r_w} \quad \Rightarrow \quad  \frac{\omega_{mi}}{r_{\omega i}} = \frac{1}{s+\lambda_i}
+\]
+où,
+\begin{itemize}
+	\item[$\vect{e} = \vect{\omega_m - \omega}$];
+	\item[$\vect{e_I} = \int \vect{e} dt$];
+	\item[$\vect{K_p}$] est le gain proportionnel;
+	\item[$\vect{K_I}$]	est le gain intégral;
+	\item[$\vect{\omega_m}$] est la consigne filtrée de vitesse angulaire;
+	\item[$\vect{r_w}$] est la consigne de vitesse angulaire.
+\end{itemize}
+\end{document}

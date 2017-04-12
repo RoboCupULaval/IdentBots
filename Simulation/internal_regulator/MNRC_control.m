@@ -3,26 +3,26 @@ clear all
 
 nwheel = 4;
 
-% m = 2.2;
-% L = 0.085;
-% tau_moteur = 0.2;
-% gain_moteur = 2*pi*6;
-% J = 0.5*m*L^2;
-% r = 0.025;
-% gear_ratio = 3.2;
-% 
-% theta = (1:nwheel)*pi/2-pi/4;
-% Mc = [-cos(theta') -sin(theta') L*ones(nwheel,1)];
-% Mm = diag([1/m 1/m 1/J]);
-% 
-% Gb = J/tau_moteur;
-% Ga = gain_moteur*Gb;
-% 
-% Ma = Ga*eye(nwheel);
-% Mb = Gb*eye(nwheel);
-% 
-% M1 = Mc*Mm*Mc'*Ma/r;
-% M2 = Mc*Mm*Mc'*Mb/r;
+m = 2.2;
+L = 0.085;
+tau_moteur = 0.1;
+gain_moteur = 120;
+J = 0.5*m*L^2;
+r = 0.025;
+gear_ratio = 3.2;
+
+theta = (1:4)*pi/2-pi/4;
+Mc = [-sin(theta') cos(theta') L*ones(4,1)];
+Mm = diag([1/m 1/m 1/J]);
+
+Gb = J/tau_moteur;
+Ga = gain_moteur*Gb;
+
+Ma = Ga*eye(nwheel);
+Mb = Gb*eye(nwheel);
+
+M1 = Mc*Mm*Mc'*Ma/r;
+M2 = Mc*Mm*Mc'*Mb/r;
 
 
 M1 = [832.5160 , 348.0510 , 150.7291 , 327.6491;
@@ -42,7 +42,7 @@ dt = 1/20;
 Kp = 7*eye(nwheel);
 Ki = 25*eye(nwheel);
 
-gamma = -1/0.5;
+lambda = -1/0.5;
 
 N = 1000;
 
@@ -58,14 +58,14 @@ errI = zeros(nwheel,N);
 
 for i = 2:N
           
-    w_m(:,i) = w_m(:,i-1).*(1+dt*gamma) - dt*gamma.*w_ref(:,i); % filtered tracking reference    
+    w_m(:,i) = w_m(:,i-1).*(1+dt*lambda) - dt*lambda.*w_ref(:,i); % filtered tracking reference    
     w(:,i) = w(:,i-1) + (M1*u(:,i-1)-M2*w(:,i-1))*dt; 
     
     err(:,i) = w_m(:,i) - w(:,i); % Tracking error
     errI(:,i) = errI(:,i-1) + err(:,i)*dt;
     
     PI_action = Kp*err(:,i) + Ki*errI(:,i);
-    u(:,i) = M1\( gamma*(w_m(:,i)-w_ref(:,i)) + M2*w(:,i) + PI_action);
+    u(:,i) = M1\( lambda*(w_m(:,i)-w_ref(:,i)) + M2*w(:,i) + PI_action);
     %u(u(:,i) > 1,i) = 1;
     %u(u(:,i) < -1,i) = -1;
 

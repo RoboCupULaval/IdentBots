@@ -33,7 +33,7 @@ M2 = Mc*Mm*Mc'*Mb/r;
 
 %%
 
-x_min = 0.8*ones(32,1) ;
+x_min = 0*ones(32,1) ;
 x_max = 2*ones(32,1) ;
 x0 = ones(32,1);
 
@@ -52,7 +52,7 @@ ident_ss = c2d(ident_ss, ident_data.dt);
 %% Validation
 
 
-filenames = {'Data/310317/G05_310317_2.csv'};
+filenames = {'Data/310317/G05_310317_1.csv'};
 exp_data = parsecsv_batch(filenames, 'open_loop');
 valid_data.dt = 1/20;
 valid_data.w = exp_data.y;
