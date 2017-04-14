@@ -4,24 +4,37 @@ function [t, u, y] = parsecsv(filename, mode)
     
     file = importdata(filename);
     data = file.data;
-    headers = file.colheaders;
-    
-    u = zeros(length(data),4);
-    y = zeros(length(data),4);
+    headers = file.colheaders;   
 
     switch(mode)
         case 'open_loop'
             t = data(:,str_idx(headers, 'time'));
+            u = zeros(length(data),4);
+            y = zeros(length(data),4);
             for nwheel = 1:4    
                 u(:,nwheel) = data(:, str_idx(headers, ['motor',num2str(nwheel),'_cmd']));
                 y(:,nwheel) = data(:, str_idx(headers, ['motor',num2str(nwheel),'_speed']));
             end
         case 'open_loop_legacy'
             t = data(:,str_idx(headers, 'time'));
+            u = zeros(length(data),4);
+            y = zeros(length(data),4);
             for nwheel = 1:4    
                 u(:,nwheel) = data(:, str_idx(headers, ['motor',num2str(nwheel),'_cmd']));
                 y(:,nwheel) = data(:, str_idx(headers, ['motor',num2str(nwheel),'_speed'])).*2*pi*20/(2048*2*3.2);
             end
+        case 'close_loop'
+            t = data(:,str_idx(headers, 'time'));
+            t = t - min(t);
+            u = zeros(length(data),3);
+            y = zeros(length(data),6);
+            speed_header = 'xyt';
+            for i = 1:3    
+                u(:,i) = data(:, str_idx(headers, ['cmd_v', speed_header(i)]));
+                y(:,i) = data(:, str_idx(headers, ['v', speed_header(i)]));
+                y(:,i+3) = data(:, str_idx(headers, ['p', speed_header(i)]));
+            end
+            y(:,6) = y(:,6)*1000; % Error in python code
         otherwise
             error('parsecsv:InvalidMode', 'The mode specified is invalid')
         

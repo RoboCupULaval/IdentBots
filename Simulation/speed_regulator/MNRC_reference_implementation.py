@@ -24,7 +24,7 @@ class MNRCFixedSpeed(object):
         return np.array(
             [[np.cos(robot_angle), -np.sin(robot_angle), 0], [np.sin(robot_angle), np.cos(robot_angle), 0], [0, 0, 1]])
 
-    def update(self, reference, robot_state, delta_t):
+    def update(self, reference, robot_state: object, delta_t: object) -> object:
         """
         Update the MNRC of the active player
         """
@@ -85,3 +85,5 @@ if __name__ == '__main__':
 
         # Compute new speed command
         speed_command = MNRC.update(reference, robot_state, delta_t)
+
+        print(robot_state)
