@@ -1,7 +1,7 @@
 
 %% Load data
 
-filenames = {'Data\Robot_fixed_speed\grsim_test3.csv'};
+filenames = {'Data\Robot_fixed_speed\real_170417_02.csv'};
 ident_data = parsecsv_batch(filenames, 'close_loop');
 ident_data.dt = 1/30;
 
@@ -11,6 +11,7 @@ ident_data.retard = 1; % Delay in sample number
 
 lambda_speed = -10; 
 M3 = lambda_speed*ones(3,1);
+rotF2V = @(phiFc) [cos(phiFc) sin(phiFc) 0 ; -sin(phiFc) cos(phiFc) 0; 0 0 1];
 
 %% Identification
 
@@ -31,33 +32,24 @@ M3 = M3 .* x_out;
 
 dt = ident_data.dt;
 
-filenames = {'Data\Robot_fixed_speed\grsim_test3.csv'};
+filenames = {'Data\Robot_fixed_speed\real_170417_01.csv'};
 model_data = parsecsv_batch(filenames, 'close_loop');
-model_data.dt = 1/30;
+model_data.dt = 1/20;
 model_data.retard = 1; % Delay in sample number
 
-%
-% acc = lambda*(robot_speed - robot2fixed(orientation)*speed_command)
-% speed_command = (-M3*irotF2V(ppFc(3,i))) \ ( lambda_speed*(pvFc_m-pvFc_ref) - M3*pvFc + correction );         
-% -M3*robot2fixed(orientation)*speed_command = lambda_speed*(filtered_ref - ref) - M3*robot_speed + correction
+dataid = 1;
+    
+model_data.pvFc_model{dataid} = zeros(size(ident_data.pvFc{dataid}));
+model_data.ppFc_model{dataid} = zeros(size(ident_data.ppFc{dataid}));
+model_data.v{dataid} = ident_data.v{dataid};
 
-for dataid = 1
-    
-    model_data.pvFc_model{dataid} = zeros(size(ident_data.pvFc{dataid}));
-    model_data.ppFc_model{dataid} = zeros(size(ident_data.ppFc{dataid}));
-    model_data.v{dataid} = ident_data.v{dataid};
-    
-    model_data.pvFc_model{dataid}(ident_data.retard,:) = ident_data.pvFc{dataid}(ident_data.retard,:);
-    %validation_data.ppFc_model{dataid}(ident_data.retard,:) = ident_data.ppFc{dataid}(ident_data.retard,:);
-    for k = (ident_data.retard+1):length(model_data.pvFc_model{dataid})
-        alpha = diag(M3)*model_data.pvFc_model{dataid}(k-1,:)' -...
-                diag(M3)/rotF2V(ident_data.ppFc{dataid}(k-1, 3))*model_data.v{dataid}(k-ident_data.retard,:)';
-        model_data.pvFc_model{dataid}(k,:) = model_data.pvFc_model{dataid}(k-1,:)' + dt*alpha;
-    end
-    
-end
+fixed_speed_ident = model_data.pvFc{dataid};
+robot_speed = model_data.v{dataid};
+rotation = model_data.ppFc{dataid}(:,3);
+fixed_speed_model = compute_speed_model(robot_speed, rotation, M3, dt);
+   
 
 %%
 
-plot(model_data.pvFc_model{1}(:,3)), hold on
-plot(ident_data.pvFc{1}(:,3)), hold off
+plot(fixed_speed_model(:,1:2)), hold on
+plot(ident_data.pvFc{1}(:,1:2)), hold off

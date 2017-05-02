@@ -34,7 +34,9 @@ function [t, u, y] = parsecsv(filename, mode)
                 y(:,i) = data(:, str_idx(headers, ['v', speed_header(i)]));
                 y(:,i+3) = data(:, str_idx(headers, ['p', speed_header(i)]));
             end
-            y(:,6) = y(:,6)*1000; % Error in python code
+            y(:,1) = y(:,1)/1000; % Error in python code
+            y(:,2) = y(:,2)/1000; % Error in python code
+            %y(:,6) = y(:,6)*1000; % Error in python code
         otherwise
             error('parsecsv:InvalidMode', 'The mode specified is invalid')
         
