@@ -16,20 +16,18 @@ h = animatedline;
 i = 0;
 while abs(current_position) < abs(target_position)
     i = i+1;
-
-    
-    pos_error = target_position - current_position;
-    
-    distance_to_reach_speed = abs(target_speed^2 - current_velocity^2)/(2 * max_acc);
-    
     addpoints(h, i, current_velocity) 
     drawnow update 
     
     current_speed = abs(current_velocity);
-    if abs(pos_error) < 2 * max_acc * dt                
-        next_speed = target_speed;
-    elseif abs(pos_error) - distance_to_reach_speed < 2 * max_acc * dt
+    pos_error = target_position - current_position;    
+    distance_to_reach_speed = abs(target_speed^2 - current_velocity^2)/(2 * max_acc);
+        
+    if abs(pos_error) - distance_to_reach_speed < 2 * max_acc * dt
         next_speed = current_speed - max_acc * dt;
+        if abs(pos_error) < 2 * max_acc * dt                
+            next_speed = target_speed;
+        end
     else
         next_speed = current_speed + max_acc * dt;
         if next_speed >= cruise_speed
