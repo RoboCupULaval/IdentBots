@@ -1,8 +1,8 @@
 close all
 dt = 1/30;
-current_velocity = 1;
+current_velocity = 0;
 current_position = 0;
-target_speed  = 0.5;
+target_speed  = 0;
 target_position = 10;
 cruise_speed = 2;
 max_acc = 1;
