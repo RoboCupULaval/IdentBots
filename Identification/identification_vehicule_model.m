@@ -4,21 +4,21 @@ filenames = {'Data/310317/G05_310317_1.csv',...
              'Data/310317/G05_310317_3.csv',...
              'Data/310317/G05_310317_5.csv'};
 exp_data = parsecsv_batch(filenames, 'open_loop');
-ident_data.dt = 1/20;
+ident_data.dt = 1/100;
 ident_data.w = exp_data.y;
 ident_data.v = exp_data.u;
 
 %%
 
-m = 2.2;
-L = 0.085;
+m = 2;
+L = 0.0785;
 tau_moteur = 0.1;
 gain_moteur = 120;
 J = 0.5*m*L^2;
-r = 0.025;
-gear_ratio = 3.2;
+r = 0.033;
+gear_ratio = 5;
 
-theta = (1:4)*pi/2-pi/4;
+theta = wrapTo2Pi(deg2rad([60, 141, -141, -60]));
 Mc = [-sin(theta') cos(theta') L*ones(4,1)];
 Mm = diag([1/m 1/m 1/J]);
 
