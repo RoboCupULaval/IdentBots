@@ -1,8 +1,10 @@
 
-filenames = {'Data/310317/G05_310317_1.csv',...
-             'Data/310317/G05_310317_2.csv',...
-             'Data/310317/G05_310317_3.csv',...
-             'Data/310317/G05_310317_5.csv'};
+files = dir('./Data/Delta_2/*.csv');
+filenames = {files.name};
+filefolder = {files.folder};
+for i = 1:length(filenames)
+   filenames{i} = [filefolder{i}, '/', filenames{i}];  
+end
 exp_data = parsecsv_batch(filenames, 'open_loop');
 ident_data.dt = 1/100;
 ident_data.w = exp_data.y;
@@ -10,10 +12,10 @@ ident_data.v = exp_data.u;
 
 %%
 
-m = 2;
+m = 3.0;
 L = 0.0785;
-tau_moteur = 0.1;
-gain_moteur = 120;
+tau_moteur = 0.005;
+gain_moteur = 100;
 J = 0.5*m*L^2;
 r = 0.033;
 gear_ratio = 5;
@@ -33,7 +35,7 @@ M2 = Mc*Mm*Mc'*Mb/r;
 
 %%
 
-x_min = 0*ones(32,1) ;
+x_min = 0.01*ones(32,1) ;
 x_max = 2*ones(32,1) ;
 x0 = ones(32,1);
 
@@ -52,9 +54,9 @@ ident_ss = c2d(ident_ss, ident_data.dt);
 %% Validation
 
 
-filenames = {'Data/310317/G05_310317_1.csv'};
+filenames = {'./Data/Delta_2/test_06.csv'};
 exp_data = parsecsv_batch(filenames, 'open_loop');
-valid_data.dt = 1/20;
+valid_data.dt = 1/100;
 valid_data.w = exp_data.y;
 valid_data.v = exp_data.u;
 
