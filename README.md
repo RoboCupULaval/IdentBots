@@ -12,7 +12,7 @@ Si tu es ici, c'est parce que la loi de contrôle de ton robot n'est peut-être 
 En gros, ce que tu veux c'est les deux matrice M1 et M2 qui sont directement programées dans le microcontroleur du robot.
 Ces matrices permettent de transférer des commandes de vitesse cartesiennes en vitesse de roues en prennant en compte plein plein de cossins le fun comme la friction et le back EMF (voir le paper sur le MNRC for more funny details).
 
-Pour avoir ces deux matrices, il faut simplement aller dans IdentBots/Identification et faire rouler le script matlab identification_vehicule_madel_2.m.
+Pour avoir ces deux matrices, il faut simplement aller dans IdentBots/Identification et faire rouler le script matlab identification_vehicule_model_2.m.
 
 (warning, vu que l'architecture du robot a changer, il faut des fichers (contenu dans IdentBots/Identification/data/gamma, par exemple, pour caratériser la réponse en boucle ouverte. En date d'aujourd'hui, l'information pour les générer n'est pas encore bien propagée, ce tuto sera mis a jour pour ce détail sous peu.)
 
