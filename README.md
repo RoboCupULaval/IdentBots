@@ -19,7 +19,7 @@ Pour avoir ces deux matrices, il faut simplement aller dans IdentBots/Identifica
 Les deux matrices seront disponibles dans le workspace de matlab.
 
 CEPENDANT, il ne faut pas oublier de modifier les paramètres du robots en fonction des changement de l'architecture du robot!
-ex: rayon des roues, distance des roues par rapport au centre du robot, ration de reduction (gear-ratio), signe astrologique du robot, etc.
+ex: rayon des roues, distance des roues par rapport au centre du robot, ratio de reduction (gear-ratio), signe astrologique du robot, etc.
 
 Ensuite, pour implémenter ces matrices, il faut aller dans le git repro RobotMCU et modifier les deux matrices contenues dans RobotMCU/Robot_stm32f4discovery/Src/robocup/motors/mnrc.c
 
