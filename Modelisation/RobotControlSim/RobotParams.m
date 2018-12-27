@@ -12,10 +12,10 @@ classdef RobotParams < matlab.System
         I_bot = 0.01;
 
         % Gear ratio of motor to wheel.  w_motor * g = w_wheel
-        g = 3.2;
+        g = 3.5714; % 50/14
 
         % Radius of omni-wheels (meters)
-        r = 0.025;
+        r = 0.0325;
 
         % Distance from the center of wheel to the center of the robot (meters)
         L = 0.085;
@@ -43,7 +43,7 @@ classdef RobotParams < matlab.System
         V = 1;
 
         % Angle of each wheel axis relative to the +x axis (radians)
-        wheel_angles = (pi/4 + (pi/2)*(0:3))';
+        wheel_angles = [60 141 219 300]'*pi/180;
     end
 
 

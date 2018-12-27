@@ -1,9 +1,9 @@
-
-filenames = {'Data/310317/G05_310317_1.csv',...
-             'Data/310317/G05_310317_2.csv',...
-             'Data/310317/G05_310317_3.csv',...
-             'Data/310317/G05_310317_4.csv',...
-             'Data/310317/G05_310317_5.csv'};
+clear
+filenames = {'Data/Gamma/310317/G05_310317_1.csv',...
+             'Data/Gamma/310317/G05_310317_2.csv',...
+             'Data/Gamma/310317/G05_310317_3.csv',...
+             'Data/Gamma/310317/G05_310317_4.csv',...
+             'Data/Gamma/310317/G05_310317_5.csv'};
 exp_data = parsecsv_batch(filenames, 'open_loop');
 dt = 1/20;
 
@@ -17,10 +17,10 @@ L = 0.085;
 tau_moteur = 0.1;
 gain_moteur = 120;
 J = 0.5*m*L^2;
-r = 0.025;
-gear_ratio = 3.2;
+r = 0.0325;
+gear_ratio = 50/14;
 
-theta = (1:4)*pi/2-pi/4;
+theta = [60 141 219 300]*pi/180;
 Mc = [-sin(theta') cos(theta') L*ones(nwheel,1)];
 Mm = diag([1/m 1/m 1/J]);
 

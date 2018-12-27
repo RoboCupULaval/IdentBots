@@ -1,0 +1,16 @@
+# Identification
+
+## RobotIdent
+Interface permettant l'acquisition de données directement des robots via un port série Bluetooth.
+
+## Modelisation
+...
+
+
+## Why-do, What-do, How-do.
+Si tu es ici, c'est parce que la loi de contrôle de ton robot n'est peut-être plus à jour (architecture du robot a été modifiée par exemple).
+En gros, ce que tu veux c'est les deux matrice M1 et M2 qui sont directement programées dans le microcontroleur du robot.
+Ces matrices permettent de transférer des commandes de vitesse cartesiennes en vitesse de roues en prennant en compte plein plein de cossins le fun comme la friction et le back EMF (voir le paper sur le MNRC for more funny details).
+
+Pour avoir ces deux matrices, il faut simplement aller dans IdentBots/Identification et faire rouler le script matlab identification_vehicule_madel_2.m
+Les deux m
