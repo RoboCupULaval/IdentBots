@@ -2,7 +2,7 @@
 
 % hwinfo = instrhwinfo('Bluetooth');
 
-b = Bluetooth('RobotDebugFC1891', 1);
+b = Bluetooth('RobotDebugFC196E', 1);
 
 
 filename = 'D01_080518';

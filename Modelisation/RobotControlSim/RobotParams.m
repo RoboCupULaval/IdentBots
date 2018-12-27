@@ -6,19 +6,19 @@ classdef RobotParams < matlab.System
     % Simulink block-diagram model file.
     properties
         % Mass of bot (Kg)
-        M_bot = 1;
+        M_bot = 2.2;
 
         % Moment of inertia of bot about the z (vertical) axis through the center of mass (Kg*m^2)
-        I_bot = 1;
+        I_bot = 0.01;
 
         % Gear ratio of motor to wheel.  w_motor * g = w_wheel
-        g = 2.0 / 7.0;
+        g = 3.2;
 
         % Radius of omni-wheels (meters)
-        r = 0.03;
+        r = 0.025;
 
         % Distance from the center of wheel to the center of the robot (meters)
-        L = 0.1;
+        L = 0.085;
 
         % Resistance of motor from terminal to terminal (ohms)
         Rt = 1;
@@ -34,10 +34,10 @@ classdef RobotParams < matlab.System
         K_t = 1;
 
         % Viscous friction coefficient of wheel assembly (N*m/(rad/s)).  Tau_friction = w_motor * K_f
-        K_f = 1;
+        K_f = 0.1;
 
         % Moment of inertia of wheel assembly.  Tau_accel = I_asm*w_dot_motor
-        I_asm = 1;
+        I_asm = 1e-4;
 
         % Max voltage applied to the motor phases (Volts)
         V = 1;

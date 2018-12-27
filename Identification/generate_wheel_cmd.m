@@ -39,17 +39,17 @@ t = N*t;
 
 v_cmd = valeur_instant(instants_trans_cmd(1:end-1),:);
 
-L = 0.085;
-r = 0.025;
+L = 0.0785;
+r = 0.033;
 
-theta = (1:4)*pi/2-pi/4;
+theta = wrapTo2Pi(deg2rad([60, 141, -141, -60]));
 Mc = [-sin(theta') cos(theta') L*ones(4,1)];
 
 vx = v_cmd(:,1)';
 vy = v_cmd(:,2)';
 w =  v_cmd(:,3)';
 
-cmd = (Mc*[vx;vy;w]/r/120)';
+cmd = (Mc*[vx;vy;w]/r/30)';
 cmd(abs(cmd) < 0.05) = 0;
 cmd = [t', cmd];
 
