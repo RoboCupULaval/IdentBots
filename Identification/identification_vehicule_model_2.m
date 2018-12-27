@@ -13,7 +13,7 @@ ident_data = iddata(exp_data.y, exp_data.u, dt);
 nwheel = 4;
 
 m = 2.2;
-L = 0.085;
+L = 0.08051;
 tau_moteur = 0.1;
 gain_moteur = 120;
 J = 0.5*m*L^2;
